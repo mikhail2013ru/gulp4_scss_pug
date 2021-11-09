@@ -1,0 +1,29 @@
+{
+  "name": "gulp4_scss_pug",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "mikhail",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.27.7",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.1.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-sass": "^5.0.0",
+    "gulp-scss": "^1.1.2",
+    "gulp-uglify-es": "^3.0.0",
+    "gulp-util": "^3.0.8",
+    "sass": "^1.43.4"
+  },
+  "dependencies": {
+    "check": "^1.0.0",
+    "g": "^2.0.1",
+    "npm": "^8.1.3",
+    "updates": "^12.2.2"
+  }
+}
