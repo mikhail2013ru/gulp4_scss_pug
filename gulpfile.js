@@ -11,7 +11,9 @@ const cleancss     = require('gulp-clean-css');
 const imagemin     = require('gulp-imagemin-fix');
 const newer        = require('gulp-newer');
 const del          = require('del');
-const pug          = require('gulp-pug');
+// const pug          = require('gulp-pug');
+// const rigger       = require('gulp-rigger');
+const fileinclude = require('gulp-file-include');
 const plumber      = require('gulp-plumber');
 const notify       = require('gulp-notify');
 const jshint       = require('gulp-jshint');
@@ -39,6 +41,22 @@ function scripts() {
     .pipe(browserSync.stream())
 }
 
+function fileInclude() {
+    return src('app/templates/**/*.html')
+    // return src('app/**/*.html')
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('app'));
+}
+// function htmlRigger() {
+//     return src('app/templates/**/*.html')
+//     .pipe(rigger())
+//     .pipe(gulp.dest('app/'))
+//     .pipe(browserSync.stream())
+// }
+
 function styles() {
     return src('app/' + preprocessor + '/main.' + preprocessor + '')
     .pipe(plumber({ errorHandler: onError }))
@@ -57,16 +75,16 @@ function images() {
     .pipe(dest('app/img/dest/'))
 }
 
-function pug2html() {
-    return src('app/pug/index.pug')
-    .pipe(plumber())
-    .pipe(pug({
-        // код не будет минифицирован
-        pretty: true
-    }))
-    .pipe(plumber.stop())
-    .pipe(dest('app'))
-}
+// function pug2html() {
+//     return src('app/pug/index.pug')
+//     .pipe(plumber())
+//     .pipe(pug({
+//         // код не будет минифицирован
+//         pretty: true
+//     }))
+//     .pipe(plumber.stop())
+//     .pipe(dest('app'))
+// }
 
 function cleanimg() {
     return del('app/img/dest/**/*')
@@ -84,8 +102,9 @@ function onError(err) {
 function startwatch() {
     watch('app/**/' + preprocessor + '/**/*', styles);
     watch(['app/**/*.js', '!app/**/*.min.js'], scripts);
+    // watch('app/**/*.html').on('change', browserSync.reload);
     watch('app/**/*.html').on('change', browserSync.reload);
-    watch('app/**/*.pug', pug2html);
+    // watch('app/**/*.pug', pug2html);
     watch('app/img/src/**/*', images);
 
 }
@@ -95,6 +114,8 @@ exports.scripts     = scripts;
 exports.styles      = styles;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
-exports.pug2html    = pug2html;
+// exports.htmlRigger  = htmlRigger;
+// exports.pug2html    = pug2html;
+exports.fileInclude    = fileInclude;
 
 exports.default     = parallel(styles, scripts, browsersync, startwatch);
