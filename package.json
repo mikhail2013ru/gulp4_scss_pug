@@ -23,6 +23,7 @@
     "gulp-notify": "^4.0.0",
     "gulp-plumber": "^1.2.1",
     "gulp-pug": "^5.0.0",
+    "gulp-replace": "^1.1.3",
     "gulp-rigger": "^0.5.8",
     "gulp-sass": "^5.0.0",
     "gulp-scss": "^1.4.0",

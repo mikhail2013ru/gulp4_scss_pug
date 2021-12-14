@@ -11,13 +11,13 @@ const cleancss     = require('gulp-clean-css');
 const imagemin     = require('gulp-imagemin-fix');
 const newer        = require('gulp-newer');
 const del          = require('del');
-// const pug          = require('gulp-pug');
 const rigger       = require('gulp-rigger');
-// const fileinclude = require('gulp-file-include');
 const plumber      = require('gulp-plumber');
 const notify       = require('gulp-notify');
 const jshint       = require('gulp-jshint');
 const beep         = require('beepbeep');
+// const pug          = require('gulp-pug');
+// const fileinclude = require('gulp-file-include');
 
 function browsersync() {
     browserSync.init({
@@ -51,11 +51,11 @@ function scripts() {
 //     }))
 //     .pipe(dest('app/'));
 // }
-function htmlRigger() {
-    return src('app/templates/**/*.html')
+function html() {
+    return src(['app/views/**/index.html', "!app/views/blocks/*.html"])
     .pipe(rigger())
     .pipe(dest('app/'))
-    .pipe(browserSync.stream())
+    .on("end", browserSync.reload);
 }
 
 function styles() {
@@ -103,11 +103,11 @@ function onError(err) {
 function startwatch() {
     watch('app/**/' + preprocessor + '/**/*', styles);
     watch(['app/**/*.js', '!app/**/*.min.js'], scripts);
-    // watch('app/**/*.html').on('change', browserSync.reload);
     watch('app/**/*.html').on('change', browserSync.reload);
-    // watch('app/**/*.pug', pug2html);
+    watch(['app/views/index.html', '!app/views/blocks/**/*.html'], html);
     watch('app/img/src/**/*', images);
-
+    // watch('app/**/*.html').on('change', browserSync.reload);
+    // watch('app/**/*.pug', pug2html);
 }
 
 exports.browsersync = browsersync;
@@ -115,7 +115,7 @@ exports.scripts     = scripts;
 exports.styles      = styles;
 exports.images      = images;
 exports.cleanimg    = cleanimg;
-exports.htmlRigger  = htmlRigger;
+exports.html        = html;
 // exports.pug2html    = pug2html;
 // exports.fileInclude    = fileInclude;
 
